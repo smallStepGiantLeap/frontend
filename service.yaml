@@ -8,3 +8,5 @@ spec:
   egress:
     - service: smallStepGiantLeap/echo
       methods: [echo.v1.EchoService/Echo]
+    - service: smallStepGiantLeap/hello
+      methods: [hello.v1.HelloService/Hello]
