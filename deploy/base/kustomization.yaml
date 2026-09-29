@@ -11,6 +11,7 @@ resources:
 - namespace.yaml
 - network/allow-platform.yaml
 - network/allow-to-echo.yaml
+- network/allow-to-hello.yaml
 - network/default-deny.yaml
 - pdb.yaml
 - rollout.yaml

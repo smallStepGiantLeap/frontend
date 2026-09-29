@@ -12,5 +12,6 @@ spec:
   - hosts:
     - istio-system/*
     - echo/echo.echo.svc.cluster.local
+    - hello/hello.hello.svc.cluster.local
   outboundTrafficPolicy:
     mode: REGISTRY_ONLY

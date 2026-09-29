@@ -276,6 +276,7 @@ image . "$NAME"
 docker build -q --provenance=false -f e2e/Dockerfile.probe -t probe:e2e . >/dev/null
 kind load docker-image --name "$CLUSTER" probe:e2e >/dev/null
 dependency echo
+dependency hello
 deploy . "$NAME"
 identity intruder intruder
 decoy
@@ -340,6 +341,7 @@ check blocked "a namespace not in ingress is stopped by NetworkPolicy before it 
 echo
 echo "== what $NAME may connect to (egress, from inside its own pod)"
 check reach "echo authorizes echo.v1.EchoService/Echo" -- probe_inside -- -target echo.echo.svc.cluster.local:50051 -method /echo.v1.EchoService/Echo
+check blocked "awaiting access: hello's ingress does not admit this service yet, so its NetworkPolicy refuses the connection" -- probe_inside -- -target hello.hello.svc.cluster.local:50051 -method /hello.v1.HelloService/Hello
 check blocked "decoy is not in egress: the Sidecar and NetworkPolicy both refuse it" -- probe_inside -- -target decoy.decoy.svc.cluster.local:50051 -method /grpc.health.v1.Health/Check
 check dial-fail "example.com is not in egress" -- probe_inside -- -dial example.com:443
 
@@ -357,5 +359,5 @@ echo "== node drain"
 skip "no caller is granted a unary method of $NAME, so there is no traffic to keep up during a node drain"
 
 echo
-echo "$passed passed, $failed failed (of $((4 + 7 + 3)) checks)"
+echo "$passed passed, $failed failed (of $((5 + 7 + 3)) checks)"
 [[ "$failed" -eq 0 ]]
