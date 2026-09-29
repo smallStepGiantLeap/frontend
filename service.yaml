@@ -5,6 +5,6 @@ metadata:
 spec:
   language: go
   proto: proto/frontend/v1/frontend.proto
-  outbound:
-    - repo: smallStepGiantLeap/echo
+  egress:
+    - service: smallStepGiantLeap/echo
       methods: [echo.v1.EchoService/Echo]
