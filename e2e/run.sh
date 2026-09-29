@@ -334,14 +334,14 @@ for env in deploy/envs/*/; do
 done
 
 echo
-echo "== who may call $NAME (inbound)"
-check blocked "an undeclared namespace is stopped by NetworkPolicy before it reaches the mesh" -- probe_as intruder intruder intruder -- -target frontend.frontend.svc.cluster.local:50051 -method /frontend.v1.FrontendService/Home
+echo "== who may call $NAME (authorizedCallers, ingress)"
+check blocked "a namespace not in ingress is stopped by NetworkPolicy before it reaches the mesh" -- probe_as intruder intruder intruder -- -target frontend.frontend.svc.cluster.local:50051 -method /frontend.v1.FrontendService/Home
 
 echo
-echo "== what $NAME may call (outbound, from inside its own pod)"
-check reach "echo grants echo.v1.EchoService/Echo" -- probe_inside -- -target echo.echo.svc.cluster.local:50051 -method /echo.v1.EchoService/Echo
-check blocked "decoy is not in outbound: the Sidecar and NetworkPolicy both refuse it" -- probe_inside -- -target decoy.decoy.svc.cluster.local:50051 -method /grpc.health.v1.Health/Check
-check dial-fail "example.com is not in outbound" -- probe_inside -- -dial example.com:443
+echo "== what $NAME may connect to (egress, from inside its own pod)"
+check reach "echo authorizes echo.v1.EchoService/Echo" -- probe_inside -- -target echo.echo.svc.cluster.local:50051 -method /echo.v1.EchoService/Echo
+check blocked "decoy is not in egress: the Sidecar and NetworkPolicy both refuse it" -- probe_inside -- -target decoy.decoy.svc.cluster.local:50051 -method /grpc.health.v1.Health/Check
+check dial-fail "example.com is not in egress" -- probe_inside -- -dial example.com:443
 
 echo
 echo "== autoscaling and rollout (staging's canary pace)"
