@@ -1,0 +1,10 @@
+apiVersion: vikrant.smallstepgiantleap.dev/v1alpha1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  language: go
+  proto: proto/frontend/v1/frontend.proto
+  outbound:
+    - repo: smallStepGiantLeap/echo
+      methods: [echo.v1.EchoService/Echo]

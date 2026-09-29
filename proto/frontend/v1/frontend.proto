@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package frontend.v1;
+
+service FrontendService {
+  rpc Home(HomeRequest) returns (HomeResponse);
+}
+
+message HomeRequest {}
+message HomeResponse { string html = 1; }
