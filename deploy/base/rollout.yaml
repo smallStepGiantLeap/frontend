@@ -74,12 +74,15 @@ spec:
         ports:
         - containerPort: 50051
           name: grpc
+          protocol: TCP
         - containerPort: 9090
           name: metrics
+          protocol: TCP
         readinessProbe:
           failureThreshold: 2
           grpc:
             port: 50051
+            service: ""
           periodSeconds: 2
         resources:
           limits:
@@ -98,6 +101,7 @@ spec:
           failureThreshold: 30
           grpc:
             port: 50051
+            service: ""
           periodSeconds: 1
       securityContext:
         runAsGroup: 65532
