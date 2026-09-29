@@ -341,7 +341,7 @@ check blocked "a namespace not in ingress is stopped by NetworkPolicy before it 
 echo
 echo "== what $NAME may connect to (egress, from inside its own pod)"
 check reach "echo authorizes echo.v1.EchoService/Echo" -- probe_inside -- -target echo.echo.svc.cluster.local:50051 -method /echo.v1.EchoService/Echo
-check blocked "awaiting access: hello's ingress does not admit this service yet, so its NetworkPolicy refuses the connection" -- probe_inside -- -target hello.hello.svc.cluster.local:50051 -method /hello.v1.HelloService/Hello
+check reach "hello authorizes hello.v1.HelloService/Hello" -- probe_inside -- -target hello.hello.svc.cluster.local:50051 -method /hello.v1.HelloService/Hello
 check blocked "decoy is not in egress: the Sidecar and NetworkPolicy both refuse it" -- probe_inside -- -target decoy.decoy.svc.cluster.local:50051 -method /grpc.health.v1.Health/Check
 check dial-fail "example.com is not in egress" -- probe_inside -- -dial example.com:443
 
