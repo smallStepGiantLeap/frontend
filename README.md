@@ -4,7 +4,8 @@ A gRPC service on the vikrant platform, serving
 `frontend.v1.FrontendService`.
 
 Write your code in [`internal/handlers/`](internal/handlers/). Everything
-around it is already in place:
+around it is already in place (see the owners table below for what the
+platform keeps regenerating):
 
 - a hardened server that protects itself from toxic clients;
 - a drain that moves long-lived streams to other replicas on shutdown;
